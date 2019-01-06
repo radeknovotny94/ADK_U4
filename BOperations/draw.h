@@ -32,6 +32,7 @@ public:
     std::vector<QPointFB> getA(){return polA;}
     std::vector<QPointFB> getB(){return polB;}
     void setBuff(std::vector<std::vector<QPointFB> > buff_) {buff=buff_;}
+    void loadPoints(std::string pointsA_path, std::string pointsB_path, QSizeF &canvas_size);
 
 
 

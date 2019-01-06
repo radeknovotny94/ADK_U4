@@ -2,6 +2,8 @@
 #include "ui_widget.h"
 #include "algorithms.h"
 
+#include <QFileDialog>
+
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -62,12 +64,42 @@ void Widget::on_pushButton_5_clicked()
     std::vector<QPointFB> B = ui->Canvas->getB();
 
     std::vector<std::vector<QPointFB> > bufferA = Algorithms::polygonOffset(A, 20,  30.0 * M_PI / 180);
-    //std::vector<std::vector<QPointFB> > bufferB = Algorithms::polygonOffset(B, 20,  7.0 * M_PI / 180);
+    std::vector<std::vector<QPointFB> > bufferB = Algorithms::polygonOffset(B, 20,  7.0 * M_PI / 180);
 
-    //bufferB.insert(bufferB.end(), bufferA.begin(), bufferA.end());
+    bufferB.insert(bufferB.end(), bufferA.begin(), bufferA.end());
 
-    ui->Canvas->setBuff(bufferA);
+    ui->Canvas->setBuff(bufferB);
 
     repaint();
 
+}
+
+void Widget::on_load_pol_clicked()
+{
+    //get path to directory upper of build
+    QDir current_path = QDir::currentPath();
+    current_path.cdUp();
+    QString path = current_path.path();
+
+    //open file dialog
+    QString point_path_a = QFileDialog::getOpenFileName(
+                this,
+                tr("Select file with POLYGON A"),
+                path,
+                "Text file (*.txt);;All files (*.*)");
+
+    QString point_path_b = QFileDialog::getOpenFileName(
+                this,
+                tr("Select file with POLYGON B"),
+                path,
+                "Text file (*.txt);;All files (*.*)");
+
+    //convert path from QString to string (change coding to utf8 for ifstream)
+    std::string point_path_a_utf8 = point_path_a.toUtf8().constData();
+    std::string point_path_b_utf8 = point_path_b.toUtf8().constData();
+
+    QSizeF canvas_size = ui->Canvas->size();
+
+    ui->Canvas->loadPoints(point_path_a_utf8, point_path_b_utf8, canvas_size); //load
+    repaint();
 }

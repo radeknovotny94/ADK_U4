@@ -1,4 +1,5 @@
 #include "draw.h"
+#include <fstream>
 
 Draw::Draw(QWidget *parent) : QWidget(parent)
 {
@@ -20,6 +21,73 @@ Draw::Draw(QWidget *parent) : QWidget(parent)
     polB.push_back(p5);
     polB.push_back(p6);
     */
+}
+
+void Draw::loadPoints(std::string pointsA_path, std::string pointsB_path, QSizeF &canvas_size)
+{
+    std::ifstream pointsA_file;
+    std::ifstream pointsB_file;
+
+    pointsA_file.open(pointsA_path);
+    pointsB_file.open(pointsB_path);
+
+    if(!pointsA_file.is_open() && !pointsB_file.is_open())
+    {
+        return;
+    }
+
+    double min_x = std::numeric_limits<double>::max();
+    double min_y = std::numeric_limits<double>::max();
+    double max_x = std::numeric_limits<double>::min();
+    double max_y = std::numeric_limits<double>::min();
+
+    if(pointsA_file.is_open())
+    {
+        polA.clear();
+        double x, y;
+        while (pointsA_file >> x >> y)
+        {
+            polA.push_back(QPointFB(x, y));
+            if(x < min_x) min_x = x;
+            if(x > max_x) max_x = x;
+            if(y < min_y) min_y = y;
+            if(y > max_y) max_y = y;
+        }
+        pointsA_file.close();
+    }
+
+    if(pointsB_file.is_open())
+    {
+        polB.clear();
+        double x, y;
+        while (pointsB_file >> x >> y)
+        {
+            polB.push_back(QPointFB(x, y));
+            if(x < min_x) min_x = x;
+            if(x > max_x) max_x = x;
+            if(y < min_y) min_y = y;
+            if(y > max_y) max_y = y;
+        }
+        pointsB_file.close();
+    }
+
+    double h = canvas_size.height() - 50;
+    double w = canvas_size.width() - 50;
+
+    double xc = w/(max_x-min_x);
+    double yc = h/(max_y-min_y);
+
+    for(unsigned int i = 0; i < polA.size(); i++)
+    {
+        polA[i].setX(((polA[i].x()-min_x)*xc)+25);
+        polA[i].setY(((polA[i].y()-min_y)*yc)+25);
+    }
+
+    for(unsigned int i = 0; i < polB.size(); i++)
+    {
+        polB[i].setX(((polB[i].x()-min_x)*xc)+25);
+        polB[i].setY(((polB[i].y()-min_y)*yc)+25);
+    }
 }
 
 void Draw::paintEvent(QPaintEvent *e)
