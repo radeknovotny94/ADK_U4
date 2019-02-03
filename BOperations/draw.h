@@ -15,8 +15,6 @@ private:
     std::vector<QPointFB> polB;
     std::vector<std::vector<QPointFB> > res;
     bool ab;
-    std::vector<std::vector<QPointFB> > buff;
-
 
 public:
     explicit Draw(QWidget *parent = nullptr);
@@ -31,13 +29,7 @@ public:
     void setB(std::vector<QPointFB> polB_){polB = polB_;}
     std::vector<QPointFB> getA(){return polA;}
     std::vector<QPointFB> getB(){return polB;}
-    void setBuff(std::vector<std::vector<QPointFB> > buff_) {buff=buff_;}
     void loadPoints(std::string pointsA_path, std::string pointsB_path, QSizeF &canvas_size);
-
-
-
-
-
 
 signals:
 

@@ -38,10 +38,10 @@ public:
     QComboBox *comboBox;
     QSpacerItem *verticalSpacer_2;
     QPushButton *pushButton_2;
-    QPushButton *pushButton_5;
     QSpacerItem *verticalSpacer_3;
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
+    QPushButton *pushButton_5;
     QSpacerItem *verticalSpacer_4;
 
     void setupUi(QWidget *Widget)
@@ -99,11 +99,6 @@ public:
 
         verticalLayout->addWidget(pushButton_2);
 
-        pushButton_5 = new QPushButton(Widget);
-        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
-
-        verticalLayout->addWidget(pushButton_5);
-
         verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer_3);
@@ -117,6 +112,11 @@ public:
         pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
 
         verticalLayout->addWidget(pushButton_4);
+
+        pushButton_5 = new QPushButton(Widget);
+        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
+
+        verticalLayout->addWidget(pushButton_5);
 
         verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -145,9 +145,9 @@ public:
          << QApplication::translate("Widget", "Difference B-A", Q_NULLPTR)
         );
         pushButton_2->setText(QApplication::translate("Widget", "Boolean Operations", Q_NULLPTR));
-        pushButton_5->setText(QApplication::translate("Widget", "Buffer", Q_NULLPTR));
         pushButton_3->setText(QApplication::translate("Widget", "Clear results", Q_NULLPTR));
         pushButton_4->setText(QApplication::translate("Widget", "Clear All", Q_NULLPTR));
+        pushButton_5->setText(QString());
     } // retranslateUi
 
 };
